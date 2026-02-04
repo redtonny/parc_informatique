@@ -1,0 +1,33 @@
+# Environnements virtuels
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Variables d’environnement
+.env
+.env.*
+
+# Base de données locale
+*.sqlite3
+
+# Logs et cache
+*.log
+*.cache
+
+# Django
+staticfiles/
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
