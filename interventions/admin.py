@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Intervention
+from .models import Intervention, TypeIntervention
+
+
+@admin.register(TypeIntervention)
+
+class TypeInterventionAdmin(admin.ModelAdmin):
+    list_display=('id','nom')
+    search_fields=('nom',)
+
+
 
 @admin.register(Intervention)
 

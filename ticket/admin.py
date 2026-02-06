@@ -1,12 +1,6 @@
 from django.contrib import admin
-from .models import Ticket, TypeDemande
+from .models import Ticket
 from interventions.models import Intervention
-
-@admin.register(TypeDemande)
-
-class TypeDemandeAdmin(admin.ModelAdmin):
-    list_display=('id','nom')
-    search_fields=('nom',)
 
 
 class InterventionInLine(admin.StackedInline):
