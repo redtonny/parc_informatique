@@ -11,7 +11,6 @@ class Ticket(models.Model):
         ('en_cours','En_cours'),
         ('fermer','Fermer')
     )
-    
     titre= models.CharField()
     description= models.TextField()
     utilisateur= models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
@@ -19,7 +18,8 @@ class Ticket(models.Model):
     type_demande= models.ForeignKey(TypeIntervention, on_delete=models.SET_NULL, null=True)
     statut= models.CharField(choices= STATUT_CHOIX, default='ouvert')
     date_creation= models.DateTimeField(auto_now_add=True)
-    
+    technicien= models.ForeignKey(Utilisateur, on_delete=models.SET_NULL, null=True, blank=True, related_name="tickets_assignes", limit_choices_to={'role':'technicien'})
+    departement= models.CharField(max_length=300)
     
     def __str__(self):
         return self.titre

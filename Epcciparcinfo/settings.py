@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'utilisateurs',
     'ticket',
     'interventions',
+    'achats',
 ]
 
 AUTH_USER_MODEL = 'utilisateurs.Utilisateur'

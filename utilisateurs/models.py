@@ -15,7 +15,7 @@ class Utilisateur(AbstractUser):
         ('admin','Administrateur'),
     )
     
-    role= models.CharField(choices=ROLE_CHOIX)
+    role= models.CharField(choices=ROLE_CHOIX, default='utilisateur')
     departement= models.ForeignKey(Departement, on_delete=models.SET_NULL, null=True, blank=True)
     
     

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .models import Ticket
 from interventions.models import Intervention
 from django.db.models import Count
@@ -25,3 +26,19 @@ def dashboard(request):
     }
     
     return render(request, 'dashboard.html', context)
+
+@login_required
+def liste_tickets(request):
+    
+    utilisateur = request.utilisateur
+    
+    if utilisateur.role== "admin":
+        tickets= Ticket.objects.all()
+    elif utilisateur.role=="technicien":
+        tickets= Ticket.objects.filter(techinicien=utilisateur) #departement=user.departement
+    else:
+        tickets= Ticket.objects.filter(utilisateur=utilisateur)
+    
+    context={"tickets":tickets}
+    return render(request, "tickets/liste.html", context)
+    
