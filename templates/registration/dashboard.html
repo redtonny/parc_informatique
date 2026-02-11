@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h2>Bienvenue {{ request.utilisateur.utilisateur }}</h2>
+<h2>Bienvenue {{ request.user }}</h2>
 
 <div class="alert alert-info">
-    Rôle : {{ request.utilisateur.role }}
+    Rôle : {{ request.user.role }}
 </div>
 
 {% endblock %}

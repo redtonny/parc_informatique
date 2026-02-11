@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Liste des Tickets</h2>
+
+
+<a href="#" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    + Nouveau Ticket
+</a>
+
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+
+<table class="w-full text-left">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-3">ID</th>
+            <th class="p-3">Titre</th>
+            <th class="p-3">Utilisateur</th>
+            <th class="p-3">Statut</th>
+            <th class="p-3">Priorité</th>
+            <th class="p-3">Date</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for ticket in tickets %}
+        <tr class="border-b hover:bg-gray-50">
+
+            <td class="p-3">{{ ticket.id }}</td>
+            <td class="p-3 font-semibold">{{ ticket.titre }}</td>
+            <td class="p-3">{{ ticket.user }}</td>
+
+            <!-- Badge Statut -->
+            <td class="p-3">
+                {% if ticket.statut == "Ouvert" %}
+                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm">
+                        Ouvert
+                    </span>
+                {% elif ticket.statut == "En cours" %}
+                    <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">
+                        En cours
+                    </span>
+                {% else %}
+                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                        Résolu
+                    </span>
+                {% endif %}
+            </td>
+
+            <td class="p-3">{{ ticket.priorite }}</td>
+            <td class="p-3">{{ ticket.date_creation|date:"d/m/Y" }}</td>
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center p-6 text-gray-500">
+                Aucun ticket pour le moment
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

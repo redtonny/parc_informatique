@@ -21,8 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Auth Django
     path('accounts/', include('django.contrib.auth.urls')),
-    #path('', include('utilisateurs.urls')),
-    path('',include('ticket.urls')),
+    path('', include('utilisateurs.urls')),
+    path('ticket/',include('ticket.urls')),
     #path('', include ('interventions.urls')),
     #path('', include ('Parcinfo.urls')),
     #path('', include('achats.urls')),
