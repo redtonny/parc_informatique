@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Bienvenue {{ request.utilisateur.utilisateur }}</h2>
+
+<div class="alert alert-info">
+    Rôle : {{ request.utilisateur.role }}
+</div>
+
+{% endblock %}
