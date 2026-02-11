@@ -30,6 +30,7 @@ class TicketAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
+    'priorite',
     'statut',
     'type_demande',
     'date_creation',

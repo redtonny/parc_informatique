@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-warning">
+        <h4>Assigner Ticket</h4>
+    </div>
+
+    <div class="card-body">
+
+        <p><strong>Titre :</strong> {{ ticket.titre }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Technicien</label>
+                {{ form.technicien }}
+            </div>
+
+            <div class="mb-3">
+                <label>Statut</label>
+                {{ form.statut }}
+            </div>
+
+            <button class="btn btn-success">
+                Assigner
+            </button>
+
+        </form>
+
+        <a href="{% url 'assigner_ticket' ticket.id %}" class="btn btn-sm btn-warning">
+            Assigner
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
