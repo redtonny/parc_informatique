@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Parc informatique - Équipements</h2>
+    <a href="{% url 'creer_equipement' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + Nouvel équipement
+    </a>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3">Nom</th>
+                <th class="p-3">Numéro de série</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">État</th>
+                <th class="p-3">Date d'achat</th>
+                <th class="p-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+            <tr class="border-b hover:bg-gray-50">
+                <td class="p-3 font-semibold">{{ equipement.nom }}</td>
+                <td class="p-3">{{ equipement.numero_serie }}</td>
+                <td class="p-3">{{ equipement.type_equipement }}</td>
+                <td class="p-3">{{ equipement.etat }}</td>
+                <td class="p-3">
+                    {% if equipement.date_achat %}
+                        {{ equipement.date_achat|date:"d/m/Y" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td class="p-3 text-right">
+                    <a href="{% url 'editer_equipement' equipement.id %}"
+                       class="text-blue-600 hover:underline text-sm">
+                        Modifier
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center p-6 text-gray-500">
+                    Aucun équipement enregistré pour le moment.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

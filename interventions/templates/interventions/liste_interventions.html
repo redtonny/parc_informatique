@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Interventions</h2>
+    {% if request.user.role == "technicien" or request.user.role == "admin" %}
+    <a href="{% url 'creer_intervention' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + Nouvelle intervention
+    </a>
+    {% endif %}
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3">ID</th>
+                <th class="p-3">Ticket</th>
+                <th class="p-3">Technicien</th>
+                <th class="p-3">Date intervention</th>
+                <th class="p-3">Terminé</th>
+                {% if request.user.role == "technicien" or request.user.role == "admin" %}
+                <th class="p-3"></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for intervention in interventions %}
+            <tr class="border-b hover:bg-gray-50">
+                <td class="p-3">{{ intervention.id }}</td>
+                <td class="p-3">{{ intervention.ticket.titre }}</td>
+                <td class="p-3">{{ intervention.technicien }}</td>
+                <td class="p-3">
+                    {{ intervention.date_intervention|date:"d/m/Y H:i" }}
+                </td>
+                <td class="p-3">
+                    {% if intervention.est_termine %}
+                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                            Oui
+                        </span>
+                    {% else %}
+                        <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-sm">
+                            En cours
+                        </span>
+                    {% endif %}
+                </td>
+                {% if request.user.role == "technicien" or request.user.role == "admin" %}
+                <td class="p-3 text-right">
+                    <a href="{% url 'editer_intervention' intervention.id %}"
+                       class="text-blue-600 hover:underline text-sm">
+                        Modifier
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center p-6 text-gray-500">
+                    Aucune intervention pour le moment.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Commandes</h2>
+    <a href="{% url 'creer_commande' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + Nouvelle commande
+    </a>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3">ID</th>
+                <th class="p-3">Fournisseur</th>
+                <th class="p-3">Ticket lié</th>
+                <th class="p-3">Date</th>
+                <th class="p-3">Montant total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+            <tr class="border-b hover:bg-gray-50">
+                <td class="p-3">{{ commande.id }}</td>
+                <td class="p-3">{{ commande.fournisseur }}</td>
+                <td class="p-3">
+                    {% if commande.ticket %}
+                        {{ commande.ticket.titre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td class="p-3">
+                    {{ commande.date_commande|date:"d/m/Y" }}
+                </td>
+                <td class="p-3">
+                    {% if commande.montant_total %}
+                        {{ commande.montant_total }} €
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center p-6 text-gray-500">
+                    Aucune commande pour le moment.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

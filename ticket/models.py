@@ -9,7 +9,7 @@ class Ticket(models.Model):
     STATUT_CHOIX=(
         ('ouvert','Ouvert'),
         ('en_cours','En_cours'),
-        ('fermer','Fermer')
+        ('ferme','Fermé')
     )
     
     PRIORITE_CHOIX=(
@@ -18,15 +18,15 @@ class Ticket(models.Model):
         ("haute", "Haute"),
         ("critique", "Critique"),
     )
-    titre= models.CharField()
+    titre= models.CharField(max_length=200)
     description= models.TextField()
     utilisateur= models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     equipement= models.ForeignKey(Equipement, on_delete=models.SET_NULL, null=True)
     priorite= models.CharField(max_length=20, choices=PRIORITE_CHOIX, default="moyenne")
     type_demande= models.ForeignKey(TypeIntervention, on_delete=models.SET_NULL, null=True)
-    statut= models.CharField(choices= STATUT_CHOIX, default='ouvert')
+    statut= models.CharField(max_length=25,choices= STATUT_CHOIX, default='ouvert')
     date_creation= models.DateTimeField(auto_now_add=True)
-    technicien= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tickets_assignes", limit_choices_to={'role':'technicien'})
+    technicien= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="tickets_assignes")
     departement= models.CharField(max_length=300, null=True, blank=True)
     
     def __str__(self):

@@ -22,14 +22,15 @@ class Intervention(models.Model):
     def save(self, *args, **kwargs):
         creation = self.pk is None
 
-    # Si création → ticket en cours
+        # Si création → ticket en cours
         if creation:
             self.ticket.statut = 'en_cours'
             self.ticket.save()
 
-    # Si intervention terminée ET pas encore de date clôture
+        # Si intervention terminée ET pas encore de date clôture
         if self.est_termine and not self.date_cloture:
-            self.ticket.statut = 'fermer'
+            # Doit correspondre exactement au choix "ferme" du modèle Ticket
+            self.ticket.statut = 'ferme'
             self.ticket.save()
             self.date_cloture = timezone.now()
 

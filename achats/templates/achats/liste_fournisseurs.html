@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold">Fournisseurs</h2>
+    <a href="{% url 'creer_fournisseur' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + Nouveau fournisseur
+    </a>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3">Nom</th>
+                <th class="p-3">Email</th>
+                <th class="p-3">Téléphone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fournisseur in fournisseurs %}
+            <tr class="border-b hover:bg-gray-50">
+                <td class="p-3 font-semibold">{{ fournisseur.nom }}</td>
+                <td class="p-3">{{ fournisseur.email }}</td>
+                <td class="p-3">{{ fournisseur.telephone }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center p-6 text-gray-500">
+                    Aucun fournisseur enregistré pour le moment.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+

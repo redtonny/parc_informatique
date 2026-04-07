@@ -16,16 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Auth Django
+    # Auth Django intégrée
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('utilisateurs.urls')),
-    path('ticket/',include('ticket.urls')),
-    #path('', include ('interventions.urls')),
-    #path('', include ('Parcinfo.urls')),
-    #path('', include('achats.urls')),
-    
-    
+
+    # Page d'accueil : redirection vers la page de connexion
+    path('', RedirectView.as_view(pattern_name='login', permanent=False), name="index"),
+
+    # Tableau de bord / pages principales
+    path('app/', include('utilisateurs.urls')),
+
+    # Modules métiers
+    path('ticket/', include('ticket.urls')),
+    path('parcinfo/', include('Parcinfo.urls')),
+    path('interventions/', include('interventions.urls')),
+    path('achats/', include('achats.urls')),
 ]

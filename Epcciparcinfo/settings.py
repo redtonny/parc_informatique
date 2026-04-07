@@ -24,12 +24,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wchiqqlvt2%q5*j9j+(on)ul%kqlkrq#ji$$zmhcw(76_9z+ll'
+# En production, définir DJANGO_SECRET_KEY dans les variables d'environnement.
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-CHANGE_ME_DEV_ONLY"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Utiliser DJANGO_DEBUG=False en production.
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = []
+# En dev on laisse vide, en prod on peut définir DJANGO_ALLOWED_HOSTS="example.com,www.example.com"
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [
+        host for host in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") if host
+    ]
 
 
 # Application definition
@@ -133,13 +144,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-#STATICFILES_DIRS = [BASE_DIR/ 'static']
-#STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-#MEDIA_URL= 'media'
-#MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
+# Sécurisation des cookies en production
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True

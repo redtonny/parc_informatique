@@ -7,27 +7,50 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-slate-100 min-h-screen">
 <!-- Navbar -->
-<nav class="bg-blue-900 text-white px-6 py-4 flex justify-between">
-    <h1 class="font-bold text-lg">Parc Informatique</h1>
+<nav class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+    <h1 class="font-bold text-lg tracking-wide">Parc Informatique</h1>
 
-    <div class="flex gap-4">
-        <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
-        <a href="{% url 'liste_tickets' %}" class="hover:underline">Tickets</a>
+    <div class="flex items-center gap-4 text-sm">
+        <a href="{% url 'dashboard' %}" class="hover:text-blue-300 transition">Dashboard</a>
+        <a href="{% url 'liste_tickets' %}" class="hover:text-blue-300 transition">Tickets</a>
+        <a href="{% url 'liste_equipements' %}" class="hover:text-blue-300 transition">Parc</a>
+        <a href="{% url 'liste_interventions' %}" class="hover:text-blue-300 transition">Interventions</a>
+        <a href="{% url 'liste_fournisseurs' %}" class="hover:text-blue-300 transition">Achats</a>
 
-        <form method="post" action="{% url 'logout' %}">
+        {% if request.user.is_authenticated and request.user.role == "admin" %}
+            <a href="{% url 'creer_utilisateur' %}" class="hover:text-blue-300 transition">Nouvel utilisateur</a>
+        {% endif %}
+
+        <form method="post" action="{% url 'custom_logout' %}">
             {% csrf_token %}
-            <button class="bg-red-500 px-3 py-1 rounded">
+            <button class="bg-red-500 px-3 py-1 rounded hover:bg-red-600 transition shadow-sm">
                 Logout
             </button>
         </form>
     </div>
 </nav>
 
-<!-- Content -->
-<div class="p-6">
-    {% block content %}{% endblock %}
+<!-- Messages -->
+<div class="p-4 space-y-2 max-w-3xl mx-auto">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="px-4 py-2 rounded shadow text-sm
+                        {% if message.tags == 'success' %}bg-green-100 text-green-800
+                        {% elif message.tags == 'error' %}bg-red-100 text-red-800
+                        {% else %}bg-blue-100 text-blue-800{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
+
+<!-- Content -->
+<main class="p-6">
+    <div class="max-w-6xl mx-auto">
+        {% block content %}{% endblock %}
+    </div>
+</main>
 </body>
 </html>

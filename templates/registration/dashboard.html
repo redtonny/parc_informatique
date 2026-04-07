@@ -2,10 +2,50 @@
 
 {% block content %}
 
-<h2>Bienvenue {{ request.user }}</h2>
+<h2 class="text-2xl font-bold mb-4">
+    Bienvenue {{ request.user.username }}
+</h2>
 
-<div class="alert alert-info">
-    Rôle : {{ request.user.role }}
+<div class="mb-4">
+    <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800">
+        Rôle : {{ request.user.role|title }}
+    </span>
 </div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white shadow rounded-lg p-4">
+        <p class="text-gray-500 text-sm">Tickets totaux</p>
+        <p class="text-2xl font-bold">{{ total_tickets }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-4">
+        <p class="text-gray-500 text-sm">Tickets ouverts</p>
+        <p class="text-2xl font-bold text-red-600">{{ tickets_ouverts }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-4">
+        <p class="text-gray-500 text-sm">Tickets fermés</p>
+        <p class="text-2xl font-bold text-green-600">{{ tickets_fermes }}</p>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-4">
+        <p class="text-gray-500 text-sm">Interventions terminées</p>
+        <p class="text-2xl font-bold text-emerald-600">{{ interventions_terminees }}</p>
+    </div>
+</div>
+
+{% if techniciens %}
+<div class="bg-white shadow rounded-lg p-4">
+    <h3 class="font-semibold mb-3">Top techniciens (par interventions)</h3>
+    <ul class="space-y-1">
+        {% for t in techniciens %}
+        <li class="flex justify-between">
+            <span>{{ t.technicien__username }}</span>
+            <span class="text-sm text-gray-600">{{ t.total }} interventions</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 
 {% endblock %}
